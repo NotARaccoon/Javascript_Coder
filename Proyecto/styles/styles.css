@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Supermercado+One&display=swap');
+
 *{
     margin: 0;
     padding: 0;
@@ -5,6 +7,7 @@
 
 body{
     background-color: rgb(49, 49, 49);
+    font-family: 'Supermercado One', cursive;
 }
 
 .tittle-container{
@@ -14,4 +17,26 @@ body{
 
 .tittle{
     text-align: center;
+}
+
+.party-setup{
+    margin-top: 1rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3,1fr);
+}
+
+.card{
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border: 2px solid black;
+    color: White;
+    overflow: hidden;
+}
+
+.party-img{
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
 }
