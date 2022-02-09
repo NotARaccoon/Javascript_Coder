@@ -1,6 +1,10 @@
-let nombreJugador = prompt("Ingresa tu nombre de entrenador");
-
+const ingresoEntrenador = document.querySelector(".btn-entrenador");
+const nombreEntrenador = document.getElementById("nombreEntrenador");
 const partySetup = document.querySelector(".party-setup");
+const contenedorEntrenador = document.getElementById("ingreso-entrenador");
+const errorEntrenador = document.getElementById("error-entrenador");
+const checkbox = document.getElementById("checkbox");
+const displayNombreEntrenador = document.getElementById("name-trainer");
 
 class Party {
     constructor(pokemonNombre,pokemonTipo,nivel,hp,pokemonimg){
@@ -18,7 +22,10 @@ let element = ["AGUA","FUEGO","HIELO"]
 let maxParty = 6;
 let pokeNum = 1;
 
+ /*
 do{
+
+
     let pokemonNombre = prompt("Ingresa el nombre de tu pokemon numero "+ pokeNum);
     let pokemonTipo = prompt("Ingresa su elemento");
     let pokemonTipoUP = pokemonTipo.toUpperCase();
@@ -48,11 +55,51 @@ do{
         continue;
     }
     
-} while (party.length != maxParty);
+} while (party.length != maxParty);*/
 
-console.log(party.pokemonNombre);
+//console.log(party.pokemonNombre);
 
-displayParty();
+//displayParty();
+
+function saveTrainer(eValue){
+    let tname = nombreEntrenador.value;
+
+    if(tname == ""){
+        errorEntrenador.innerText="Debe seleccionar un nombre"
+        return;
+    } else{
+        if(eValue === "sessionStorage"){
+            sessionStorage.setItem('Entrenador',JSON.stringify(tname));
+        }
+
+        if(eValue === "localStorage"){
+            localStorage.setItem('Entrenador',JSON.stringify(tname));
+        }
+    }
+    return tname;
+}
+
+function displayTrainer(tName){
+    console.log(sessionStorage.getItem('Entrenador'));
+    if(tName === "sessionStorage"){
+        displayNombreEntrenador.innerText(""+sessionStorage.getItem('Entrenador'));
+    }
+
+    if(tName === "localStorage"){
+        displayNombreEntrenador.innerText(""+localStorage.getItem('Entrenador'));
+    }
+    //contenedorEntrenador.remove();
+}
+
+ingresoEntrenador.addEventListener('click',()=>{
+    if(checkbox.checked){
+        saveTrainer('localStorage');
+    } else{
+        saveTrainer('sessionStorage');
+    }
+
+    displayTrainer();
+})
 
 function displayParty(){
 
@@ -158,6 +205,13 @@ function increaseHP(pokemonBattleling){
     }
 } 
 
+//      LISTENERS
+
+
+
+
+
+
 /*let battleElec;
 battleElec = prompt("Deseas realizar una batalla?\n 1.Si \n 2.No")
 if(battleElec == 1){
@@ -165,8 +219,6 @@ if(battleElec == 1){
 } else {
     console.log("ok");
 }*/
-
-
 /* 
 while(party.length < 6){
     function createPokemon(){
