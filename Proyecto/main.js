@@ -5,6 +5,10 @@ const contenedorEntrenador = document.getElementById("ingreso-entrenador");
 const errorEntrenador = document.getElementById("error-entrenador");
 const checkbox = document.getElementById("checkbox");
 const displayNombreEntrenador = document.getElementById("name-trainer");
+const nombrePokemon = document.getElementById("nombrePokemon");
+const elementoPokemon = document.getElementById("elementoPokemon");
+const btnAgregarParty = document.getElementById("agregarPokemon");
+const containerAgregar = document.getElementById("container-agregar");
 
 class Party {
     constructor(pokemonNombre,pokemonTipo,nivel,hp,pokemonimg){
@@ -21,6 +25,45 @@ let party = [];
 let element = ["AGUA","FUEGO","HIELO"]
 let maxParty = 6;
 let pokeNum = 1;
+
+function addPokemon(){
+
+    do{
+        const nullExist = document.createElement('h2');
+        let pokemonNombre = nombrePokemon.value;
+        let pokemonTipo = elementoPokemon.value;
+        let pokemonimg;
+
+        if(element.includes(pokemonTipo)){
+            let nivel = 1;
+            let hp = Math.floor(Math.random()* (24 - 19)+19);
+            switch (pokemonElement){
+                case "HIELO":
+                    pokemonimg = '../Proyecto/img/favpng_symbol-ice-emblem-logo.png';
+                    break;
+                
+                case "FUEGO":
+                    pokemonimg= '../Proyecto/img/fire-element-png-Transparent-Images.png';
+                    break;
+
+                case "AGUA":
+                    pokemonimg= '../Proyecto/img/217-2172033_water-png-water-element-transparent.png';
+                    break;
+            }
+            const pokemon = new Party(pokemonNombre,pokemonTipo,nivel,hp,pokemonimg);
+            
+            party.push(pokemon);
+            pokeNum++;
+        } else{
+            nullExist.innerText = "Este elemento no existe";
+            continue
+        }
+    } while (party.length != maxParty);
+
+    if(party.length == 6){
+        containerAgregar.remove();
+    }
+}
 
  /*
 do{
@@ -79,16 +122,9 @@ function saveTrainer(eValue){
     return tname;
 }
 
-function displayTrainer(tName){
-    console.log(sessionStorage.getItem('Entrenador'));
-    if(tName === "sessionStorage"){
-        displayNombreEntrenador.innerText(""+sessionStorage.getItem('Entrenador'));
-    }
-
-    if(tName === "localStorage"){
-        displayNombreEntrenador.innerText(""+localStorage.getItem('Entrenador'));
-    }
-    //contenedorEntrenador.remove();
+function displayTrainer(){
+    displayNombreEntrenador.innerText = nombreEntrenador.value;
+    contenedorEntrenador.remove();
 }
 
 ingresoEntrenador.addEventListener('click',()=>{
@@ -99,6 +135,10 @@ ingresoEntrenador.addEventListener('click',()=>{
     }
 
     displayTrainer();
+})
+
+btnAgregarParty.addEventListener('click',()=>{
+    addPokemon();
 })
 
 function displayParty(){

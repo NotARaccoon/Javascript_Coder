@@ -33,6 +33,10 @@ body{
     grid-template-columns: repeat(3,1fr);
 }
 
+.card-container{
+    justify-items: center;
+}
+
 .card{
     margin-left: 1rem;
     margin-bottom: 1rem;
@@ -40,10 +44,15 @@ body{
     border: 2px solid black;
     color: White;
     overflow: hidden;
+    max-width: fit-content;
 }
 
 .party-img{
     height: 400px;
     object-fit: cover;
     object-position: center;
+}
+
+.input-text,#agregarPokemon{
+    margin-top: 1rem;
 }
