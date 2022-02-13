@@ -24,44 +24,37 @@ class Party {
 let party = [];
 let element = ["AGUA","FUEGO","HIELO"]
 let maxParty = 6;
-let pokeNum = 1;
 
 function addPokemon(){
+    let pokemonNombre = nombrePokemon.value;
+    let pokemonTipo = elementoPokemon.value;
+    let pokemonimg;
 
-    do{
-        const nullExist = document.createElement('h2');
-        let pokemonNombre = nombrePokemon.value;
-        let pokemonTipo = elementoPokemon.value;
-        let pokemonimg;
-
-        if(element.includes(pokemonTipo)){
-            let nivel = 1;
-            let hp = Math.floor(Math.random()* (24 - 19)+19);
-            switch (pokemonElement){
-                case "HIELO":
-                    pokemonimg = '../Proyecto/img/favpng_symbol-ice-emblem-logo.png';
-                    break;
-                
-                case "FUEGO":
-                    pokemonimg= '../Proyecto/img/fire-element-png-Transparent-Images.png';
-                    break;
-
-                case "AGUA":
-                    pokemonimg= '../Proyecto/img/217-2172033_water-png-water-element-transparent.png';
-                    break;
-            }
-            const pokemon = new Party(pokemonNombre,pokemonTipo,nivel,hp,pokemonimg);
+    if(element.includes(pokemonTipo)){
+        let nivel = 1;
+        let hp = Math.floor(Math.random()* (24 - 19)+19);
+        switch (pokemonTipo){
+            case "HIELO":
+                pokemonimg = '../Proyecto/img/favpng_symbol-ice-emblem-logo.png';
+                break;
             
-            party.push(pokemon);
-            pokeNum++;
-        } else{
-            nullExist.innerText = "Este elemento no existe";
-            continue
-        }
-    } while (party.length != maxParty);
+            case "FUEGO":
+                pokemonimg= '../Proyecto/img/fire-element-png-Transparent-Images.png';
+                break;
 
-    if(party.length == 6){
-        containerAgregar.remove();
+            case "AGUA":
+                pokemonimg= '../Proyecto/img/217-2172033_water-png-water-element-transparent.png';
+                break;
+        }
+        const pokemon = new Party(pokemonNombre,pokemonTipo,nivel,hp,pokemonimg);
+        
+        party.push(pokemon);
+        console.log(pokemonNombre);
+        console.log(party.pokemonTipo);
+        console.log(party.length);
+    } else{
+        alert("ESte elemento no existe");
+        return;
     }
 }
 
