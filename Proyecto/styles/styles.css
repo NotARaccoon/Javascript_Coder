@@ -37,7 +37,19 @@ body{
     justify-items: center;
 }
 
+#card-trainer{
+    background-color: white;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border: 2px solid black;
+    color: White;
+    overflow: hidden;
+    max-width: fit-content;
+}
+
 .card{
+    background-color: rgba(49, 49, 49, 0);
     margin-left: 1rem;
     margin-bottom: 1rem;
     text-align: center;
@@ -53,6 +65,7 @@ body{
     object-position: center;
 }
 
-.input-text,#agregarPokemon{
+.input-text,#agregarPokemon,#mostrarPokemon{
     margin-top: 1rem;
 }
+

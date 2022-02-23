@@ -1,7 +1,9 @@
 const ingresoEntrenador = document.querySelector(".btn-entrenador");
 const nombreEntrenador = document.getElementById("nombreEntrenador");
 const partySetup = document.querySelector(".party-setup");
+const containerSetup = document.getElementById("container-setup");
 const contenedorEntrenador = document.getElementById("ingreso-entrenador");
+const contenedorTrainer = document.getElementById("card-trainer")
 const errorEntrenador = document.getElementById("error-entrenador");
 const checkbox = document.getElementById("checkbox");
 const displayNombreEntrenador = document.getElementById("name-trainer");
@@ -9,6 +11,13 @@ const nombrePokemon = document.getElementById("nombrePokemon");
 const elementoPokemon = document.getElementById("elementoPokemon");
 const btnAgregarParty = document.getElementById("agregarPokemon");
 const containerAgregar = document.getElementById("container-agregar");
+const btnCrearMostrar = document.getElementById("crearMuestraEquipo");
+const btnMostrar = document.getElementById("mostrarEquipo");
+const btnOcultar = document.getElementById("ocultarEquipo");
+
+btnCrearMostrar.style.visibility = "hidden";
+btnOcultar.style.visibility = "hidden";
+btnMostrar.style.visibility = "hidden";
 
 class Party {
     constructor(pokemonNombre,pokemonTipo,nivel,hp,pokemonimg){
@@ -20,20 +29,22 @@ class Party {
     }
 }
 
-
 let party = [];
 let element = ["AGUA","FUEGO","HIELO"]
 let maxParty = 6;
+let partyClicked = false;
 
 function addPokemon(){
     let pokemonNombre = nombrePokemon.value;
     let pokemonTipo = elementoPokemon.value;
+    let pokemonTipoUp = pokemonTipo.toUpperCase();
     let pokemonimg;
 
-    if(element.includes(pokemonTipo)){
+
+    if(element.includes(pokemonTipoUp)){
         let nivel = 1;
         let hp = Math.floor(Math.random()* (24 - 19)+19);
-        switch (pokemonTipo){
+        switch (pokemonTipoUp){
             case "HIELO":
                 pokemonimg = '../Proyecto/img/favpng_symbol-ice-emblem-logo.png';
                 break;
@@ -49,59 +60,26 @@ function addPokemon(){
         const pokemon = new Party(pokemonNombre,pokemonTipo,nivel,hp,pokemonimg);
         
         party.push(pokemon);
-        console.log(pokemonNombre);
-        console.log(party.pokemonTipo);
         console.log(party.length);
     } else{
-        alert("ESte elemento no existe");
+        Toastify({
+            text: "Este elemento no existe",
+            className: "info",
+            gravity: 'bottom',
+            style: {
+              background: "red",
+            }
+          }).showToast();
         return;
     }
 }
-
- /*
-do{
-
-
-    let pokemonNombre = prompt("Ingresa el nombre de tu pokemon numero "+ pokeNum);
-    let pokemonTipo = prompt("Ingresa su elemento");
-    let pokemonTipoUP = pokemonTipo.toUpperCase();
-    let pokemonimg;
-    if(element.includes(pokemonTipoUP)){
-        let nivel = 1;
-        let hp = Math.floor(Math.random()* (24 - 19)+19);
-        switch (pokemonTipoUP){
-            case "HIELO":
-                pokemonimg = '../Proyecto/img/favpng_symbol-ice-emblem-logo.png';
-                break;
-            
-            case "FUEGO":
-                pokemonimg= '../Proyecto/img/fire-element-png-Transparent-Images.png';
-                break;
-
-            case "AGUA":
-                pokemonimg= '../Proyecto/img/217-2172033_water-png-water-element-transparent.png';
-                break;
-        }
-        const pokemon = new Party(pokemonNombre,pokemonTipo,nivel,hp,pokemonimg);
-        
-        party.push(pokemon);
-        pokeNum++;
-    } else{
-        alert("Este elemento no existe");
-        continue;
-    }
-    
-} while (party.length != maxParty);*/
-
-//console.log(party.pokemonNombre);
-
-//displayParty();
 
 function saveTrainer(eValue){
     let tname = nombreEntrenador.value;
 
     if(tname == ""){
         errorEntrenador.innerText="Debe seleccionar un nombre"
+        nameT = false;
         return;
     } else{
         if(eValue === "sessionStorage"){
@@ -111,6 +89,7 @@ function saveTrainer(eValue){
         if(eValue === "localStorage"){
             localStorage.setItem('Entrenador',JSON.stringify(tname));
         }
+        nameT=true;
     }
     return tname;
 }
@@ -120,26 +99,12 @@ function displayTrainer(){
     contenedorEntrenador.remove();
 }
 
-ingresoEntrenador.addEventListener('click',()=>{
-    if(checkbox.checked){
-        saveTrainer('localStorage');
-    } else{
-        saveTrainer('sessionStorage');
-    }
-
-    displayTrainer();
-})
-
-btnAgregarParty.addEventListener('click',()=>{
-    addPokemon();
-})
-
-function displayParty(){
+function createDisplayParty(){
 
     party.forEach(function (dparty){
 
         console.log(dparty);
-        
+
         const divParty = document.createElement('div');
         divParty.classList.add('card');
 
@@ -153,7 +118,7 @@ function displayParty(){
 
         const nivelPoke = document.createElement('h2');
         nivelPoke.classList.add('nivel-pokemon')
-        nivelPoke.textContent = dparty.pokemonLevel;
+        nivelPoke.textContent = "Nivel: " + dparty.nivel;
 
         const elementoPoke = document.createElement('h3');
         elementoPoke.classList.add('elemnto-poke');
@@ -195,7 +160,7 @@ function deleteP(){
     delete party[pokemonNombre];
     console.log(party);
 }
-
+/*
 let loop = false;
 let decision = prompt("Que deseas hacer \n1.Realizar una batalla. \n2.Eliminar pokemon")
 do {
@@ -212,7 +177,6 @@ do {
 
         default:
             let reseto = prompt("Deseas realizar otra accion ?");
-            reseto = reseto.toUpperCase;
 
             switch(reseto){
                 case "SI":
@@ -227,7 +191,7 @@ do {
     }
 } while (loop = false);
 
-console.log(decision);
+*/
 
 function increaseHP(pokemonBattleling){
     pokemonBattleling = party.find((pk)=> pk.nivel == pokemonBattleling);
@@ -236,13 +200,71 @@ function increaseHP(pokemonBattleling){
         hp += Math.floor(Math.random()*(3 - 1)+1);
         nivel++;
     }
-} 
+}
 
 //      LISTENERS
 
+ingresoEntrenador.addEventListener('click',()=>{
 
+    if(nombreEntrenador.value == ''){
+        Toastify({
+            text: "Ingresar un nombre",
+            className: "info",
+            style: {
+              background: "red",
+            }
+          }).showToast();
+    } else{
+        if(checkbox.checked){
+            saveTrainer('localStorage');
+        } else{
+            saveTrainer('sessionStorage');
+        }
+        displayTrainer();
+        }
+    })
 
+btnAgregarParty.addEventListener('click',()=>{
+    if(party.length != maxParty){
+        addPokemon();
+    } else{
+        Toastify({
+            text: "Ya tienes el maximo de pokemons",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "bottom",
+            position: "left",
+            stopOnFocus: true, 
+            style: {
+              background: "red",
+            },
+            onClick: function(){}
+          }).showToast();
+    }
 
+    if(party.length == maxParty){
+        btnCrearMostrar.style.visibility="visible";
+    }
+})
+
+btnCrearMostrar.addEventListener('click',()=>{
+    createDisplayParty();
+    btnCrearMostrar.remove();
+    btnOcultar.style.visibility = "visible";
+})
+
+btnOcultar.addEventListener('click',()=>{
+    containerSetup.style.visibility ="hidden";
+    btnOcultar.style.visibility = "hidden";
+    btnMostrar.style.visibility = "visible";
+})
+
+btnMostrar.addEventListener('click',()=>{
+    containerSetup.style.visibility = "visible";
+    btnMostrar.style.visibility = "hidden";
+    btnOcultar.style.visibility = "visible";
+})
 
 
 /*let battleElec;
